@@ -64,8 +64,7 @@ export const {
   useCanUndo,
   useCanRedo,
   useMutation,
-  useSelf,
-
+  suspense: { useSelf },
   // Other hooks
   // ...
 } = createRoomContext<
