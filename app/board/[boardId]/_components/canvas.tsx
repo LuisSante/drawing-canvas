@@ -15,7 +15,7 @@ export const Canvas = ({ boardId }: CanvasProps) => {
         <main
             className="relative bg-neutral-100 w-full h-full touch-none"
         >
-            <Info />
+            <Info boardId={boardId} />
             <Participants />
             <Toolbar />
         </main>

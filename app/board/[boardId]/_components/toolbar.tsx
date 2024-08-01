@@ -1,3 +1,5 @@
+"use client";
+
 export const Toolbar = () => {
     return (
 
@@ -34,7 +36,7 @@ export const Toolbar = () => {
     )
 }
 
-Toolbar.Skeleton = function ToolbarSkeleton() {
+export const ToolbarSkeleton = () => {
     return (
         <div className="top-[50%] left-2 absolute flex flex-col gap-y-4 bg-white shadow-md w-[52px] h-[360px] -translate-y-[50%]" />
     );

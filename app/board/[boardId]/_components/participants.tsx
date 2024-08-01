@@ -8,7 +8,7 @@ export const Participants = () => {
     )
 }
 
-Participants.Skeleton = function ParticipantsSkeleton() {
+export const ParticipantsSkeleton = () => {
     return (
         <div className="top-2 right-2 absolute flex items-center bg-white shadow-md p-3 rounded-md w-[100px] h-12" />
     );
