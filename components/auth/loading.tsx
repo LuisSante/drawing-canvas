@@ -1,5 +1,4 @@
 import Image from "next/image";
-import DrawingIcon from "../../public/drawing.svg"
 
 const Loading = () => {
     return (
