@@ -24,8 +24,6 @@ export const LayerPreview = memo(({
         return null;
     }
 
-
-
     switch (layer.type) {
         case LayerType.Rectangle:
             return (

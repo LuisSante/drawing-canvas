@@ -23,10 +23,6 @@ export const Cursor = memo(({
     }
 
     const { x, y } = cursor;
-
-    console.log("se mueve en x:", x);
-    console.log("se mueve en y:", y);
-
     return (
         <foreignObject
             style={{
