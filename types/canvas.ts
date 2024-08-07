@@ -23,7 +23,7 @@ export type RectangleLayer = {
   y: number;
   height: number;
   width: number;
-  fill: number;
+  fill: color;
   value?: string;
 };
 
@@ -33,7 +33,7 @@ export type EllipseLayer = {
   y: number;
   height: number;
   width: number;
-  fill: number;
+  fill: color;
   value?: string;
 };
 
@@ -43,7 +43,7 @@ export type PathLayer = {
   y: number;
   height: number;
   width: number;
-  fill: number;
+  fill: color;
   points: number[][];
   value?: string;
 };
@@ -54,17 +54,17 @@ export type TextLayer = {
   y: number;
   height: number;
   width: number;
-  fill: number;
+  fill: color;
   value?: string;
 };
 
-export type NodeLayer = {
+export type NoteLayer = {
   type: LayerType.Note;
   x: number;
   y: number;
   height: number;
   width: number;
-  fill: number;
+  fill: color;
   value?: string;
 };
 
@@ -102,31 +102,38 @@ export type CanvasState =
       mode: CanvasMode.None;
     }
   | {
-      mode: CanvasMode.Pressing;
-      origin: Point;
-    }
-  | {
       mode: CanvasMode.SelecctionNet;
       origin: Point;
       current?: Point;
     }
   | {
       mode: CanvasMode.Traslating;
+      current?: Point;
     }
   | {
       mode: CanvasMode.Inserting;
       layerType:
         | LayerType.Ellipse
-        | LayerType.Note
-        | LayerType.Path
         | LayerType.Rectangle
-        | LayerType.Text;
+        | LayerType.Text
+        | LayerType.Note;
+    }
+  | {
+      mode: CanvasMode.Pencil;
+    }
+  | {
+      mode: CanvasMode.Pressing;
+      origin: Point;
     }
   | {
       mode: CanvasMode.Resizing;
       initialBounds: XYWH;
       corner: Side;
-    }
-  | {
-      mode: CanvasMode.Pencil;
     };
+
+export type Layer =
+  | RectangleLayer
+  | EllipseLayer
+  | PathLayer
+  | TextLayer
+  | NoteLayer;
