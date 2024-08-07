@@ -7,10 +7,9 @@ import { Footer } from "./footer";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Actions } from "@/components/actions";
 import { MoreHorizontal } from "lucide-react";
-import { UseApiMutation } from "@/hooks/use-api-mutation";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
-import { useMutation } from "convex/react";
+import { UseApiMutation } from "@/hooks/use-api-mutation";
 
 interface BoardCardProps {
     id: string;

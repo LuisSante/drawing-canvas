@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { api } from "@/convex/_generated/api";
 import { useOrganization } from "@clerk/nextjs";
-import { UseApiMutation } from "@/hooks/use-api-mutation";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { UseApiMutation } from "@/hooks/use-api-mutation";
 
 export const EmptyBoards = () => {
     const router = useRouter();
