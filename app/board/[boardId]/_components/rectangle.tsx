@@ -17,12 +17,6 @@ export const Rectangle = ({
 }: RectangleProps) => {
 
     const { x, y, width, height, fill } = layer;
-    console.log(x);
-    console.log(y);
-    console.log(width);
-    console.log(height);
-    console.log(colorToCss(fill));
-
     return (
         <rect
             className="drop-shadow-md"
