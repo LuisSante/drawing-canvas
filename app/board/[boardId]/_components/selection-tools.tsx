@@ -105,7 +105,7 @@ export const SelectionTools = memo(({
                         <BringToFront />
                     </Button>
                 </Hint>
-                <Hint label="Send to back">
+                <Hint label="Send to back" side="bottom">
                     <Button
                         onClick={moveToBack}
                         variant="board"

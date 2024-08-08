@@ -3,7 +3,7 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { LiveObject } from "@liveblocks/client";
 import { useCanRedo, useCanUndo, useHistory, useMutation, useOthersMapped, useStorage } from "@/liveblocks.config";
-import { connectionIdToColor, pointerEventToCanvasPoint, resizeBounds } from "@/lib/utils";
+import { connectionIdToColor, findIntersectionLayersWithRectangle, pointerEventToCanvasPoint, resizeBounds } from "@/lib/utils";
 import { nanoid } from "nanoid";
 import { Camera, CanvasMode, CanvasState, color, LayerType, Point, Side, XYWH } from "@/types/canvas";
 import { Info } from "./info";
@@ -75,6 +75,37 @@ export const Canvas = ({ boardId }: CanvasProps) => {
     ) => {
         if (self.presence.selection.length > 0) {
             setMyPresence({ selection: [] }, { addToHistory: true });
+        }
+    }, []);
+
+    const updateSelectionNet = useMutation((
+        { storage, setMyPresence },
+        current: Point,
+        origin: Point,
+    ) => {
+        const layers = storage.get("layers").toImmutable();
+        // console.log(layers.size);
+        setCanvasState({
+            mode: CanvasMode.SelecctionNet,
+            origin,
+            current
+        });
+
+        const ids = findIntersectionLayersWithRectangle(layerIds, layers, origin, current);
+        setMyPresence({ selection: ids });
+    }, [layerIds]);
+
+    const startMultiSelection = useCallback((
+        current: Point,
+        origin: Point,
+    ) => {
+        if (Math.abs(current.x - origin.x) + Math.abs(current.y - origin.y) > 7) {
+            // console.log("origin", origin);
+            setCanvasState({
+                mode: CanvasMode.SelecctionNet,
+                origin,
+                current
+            });
         }
     }, []);
 
@@ -153,9 +184,12 @@ export const Canvas = ({ boardId }: CanvasProps) => {
 
         const current = pointerEventToCanvasPoint(e, camera);
 
-        if (canvasState.mode === CanvasMode.Traslating) {
+        if (canvasState.mode === CanvasMode.Pressing) {
+            startMultiSelection(current, canvasState.origin);
+        } else if (canvasState.mode === CanvasMode.SelecctionNet) {
+            updateSelectionNet(current, canvasState.origin);
+        } else if (canvasState.mode === CanvasMode.Traslating) {
             translateSelectLayer(current);
-
         } else if (canvasState.mode === CanvasMode.Resizing) {
             resizeSelectLayer(current);
         }
@@ -212,8 +246,6 @@ export const Canvas = ({ boardId }: CanvasProps) => {
     ) => {
         if (canvasState.mode === CanvasMode.Pencil ||
             canvasState.mode === CanvasMode.Inserting
-            // canvasState.mode === CanvasMode.Pencil ||
-            // canvasState.mode === CanvasMode.Pencil ||
         ) {
             return;
         }
@@ -291,6 +323,15 @@ export const Canvas = ({ boardId }: CanvasProps) => {
                     <SelectionBox
                         onResizeHandlePointerDown={onResizeHandlePointerDown}
                     />
+                    {canvasState.mode === CanvasMode.SelecctionNet && canvasState.current != null && (
+                        <rect
+                            className="fill-blue-500/5 stroke-1 stroke-blue-500"
+                            x={Math.min(canvasState.origin.x, canvasState.current.x)}
+                            y={Math.min(canvasState.origin.y, canvasState.current.y)}
+                            width={Math.abs(canvasState.origin.x - canvasState.current.x)}
+                            height={Math.abs(canvasState.origin.y - canvasState.current.y)}
+                        />
+                    )}
                     <CursorsPresence />
                 </g>
             </svg>
